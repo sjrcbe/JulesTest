@@ -1,6 +1,5 @@
 package com.proconnect.app
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -12,56 +11,51 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-class LoginActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
+    private lateinit var etName: EditText
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var ivVisibility: ImageView
-    private lateinit var btnSignIn: Button
-    private lateinit var tvForgotPassword: TextView
+    private lateinit var btnSignUp: Button
     private lateinit var btnGoogle: LinearLayout
     private lateinit var btnApple: LinearLayout
-    private lateinit var tvSignUp: TextView
+    private lateinit var tvSignIn: TextView
     private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_register)
 
         // Initialize views
+        etName = findViewById(R.id.et_name)
         etEmail = findViewById(R.id.et_email)
         etPassword = findViewById(R.id.et_password)
         ivVisibility = findViewById(R.id.iv_visibility_icon)
-        btnSignIn = findViewById(R.id.btn_sign_in)
-        tvForgotPassword = findViewById(R.id.tv_forgot_password)
+        btnSignUp = findViewById(R.id.btn_sign_up)
         btnGoogle = findViewById(R.id.btn_google)
         btnApple = findViewById(R.id.btn_apple)
-        tvSignUp = findViewById(R.id.tv_sign_up)
+        tvSignIn = findViewById(R.id.tv_sign_in)
 
         // Set up click listeners
         ivVisibility.setOnClickListener {
             togglePasswordVisibility()
         }
 
-        btnSignIn.setOnClickListener {
-            handleSignIn()
-        }
-
-        tvForgotPassword.setOnClickListener {
-            Toast.makeText(this, "Forgot password clicked", Toast.LENGTH_SHORT).show()
+        btnSignUp.setOnClickListener {
+            handleSignUp()
         }
 
         btnGoogle.setOnClickListener {
-            Toast.makeText(this, "Google sign in clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Google sign up clicked", Toast.LENGTH_SHORT).show()
         }
 
         btnApple.setOnClickListener {
-            Toast.makeText(this, "Apple sign in clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Apple sign up clicked", Toast.LENGTH_SHORT).show()
         }
 
-        tvSignUp.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
+        tvSignIn.setOnClickListener {
+            finish() // Go back to LoginActivity
         }
     }
 
@@ -77,9 +71,16 @@ class LoginActivity : AppCompatActivity() {
         etPassword.setSelection(etPassword.text.length)
     }
 
-    private fun handleSignIn() {
+    private fun handleSignUp() {
+        val name = etName.text.toString().trim()
         val email = etEmail.text.toString().trim()
         val password = etPassword.text.toString().trim()
+
+        if (name.isEmpty()) {
+            etName.error = "Full name is required"
+            etName.requestFocus()
+            return
+        }
 
         if (email.isEmpty()) {
             etEmail.error = "Email is required"
@@ -93,7 +94,13 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        // Perform sign in logic
-        Toast.makeText(this, "Signing in...", Toast.LENGTH_SHORT).show()
+        if (password.length < 6) {
+            etPassword.error = "Password must be at least 6 characters"
+            etPassword.requestFocus()
+            return
+        }
+
+        // Perform sign up logic
+        Toast.makeText(this, "Creating account...", Toast.LENGTH_SHORT).show()
     }
 }
