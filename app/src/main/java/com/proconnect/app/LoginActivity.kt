@@ -69,8 +69,7 @@ class LoginActivity : AppCompatActivity() {
             ivVisibility.setImageResource(R.drawable.ic_visibility)
         } else {
             etPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-            // In a real app, you might use a different icon for 'off' state
-            ivVisibility.setImageResource(R.drawable.ic_visibility)
+            ivVisibility.setImageResource(R.drawable.ic_visibility_off)
         }
         isPasswordVisible = !isPasswordVisible
         etPassword.setSelection(etPassword.text.length)
